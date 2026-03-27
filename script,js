@@ -1,0 +1,76 @@
+const incrementBtn = document.getElementById('increment-btn');
+const decrementBtn = document.getElementById('decrement-btn');
+const counterDisplay = document.getElementById('counter-display');
+
+const textInput = document.getElementById('text-input');
+const charCount = document.getElementById('char-count');
+const dynamicTextContainer = document.getElementById('dynamic-text-container');
+
+const listTypeSelect = document.getElementById('list-type');
+const addListBtn = document.getElementById('add-list-btn');
+const listsContainer = document.getElementById('lists-container');
+
+const resetBtn = document.getElementById('reset-btn');
+
+let count = 0;
+
+incrementBtn.addEventListener('click', () => {
+    count++;
+    updateCounter();
+});
+
+decrementBtn.addEventListener('click', () => {
+    if (count > 0) {
+        count--;
+        updateCounter();
+    } else {
+        alert('O contador já está em zero!');
+    }
+});
+
+function updateCounter() {
+    counterDisplay.textContent = count;
+}
+
+textInput.addEventListener('input', () => {
+    const text = textInput.value;
+    const countWithoutSpaces = text.replace(/\s/g, '').length;
+    charCount.textContent = `${countWithoutSpaces} caracteres`;
+});
+
+textInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter' && textInput.value.trim() !== '') {
+        const newPara = document.createElement('p');
+        newPara.textContent = textInput.value;
+        dynamicTextContainer.appendChild(newPara);
+        
+        textInput.value = '';
+        charCount.textContent = '0 caracteres';
+    }
+});
+
+addListBtn.addEventListener('click', () => {
+    const type = listTypeSelect.value;
+    const newList = document.createElement(type);
+
+    const items = ['Item 1', 'Item 2', 'Item 3'];
+    
+    items.forEach(itemText => {
+        const li = document.createElement('li');
+        li.textContent = itemText;
+        newList.appendChild(li);
+    });
+    
+    listsContainer.appendChild(newList);
+});
+
+resetBtn.addEventListener('click', () => {
+    count = 0;
+    updateCounter();
+
+    textInput.value = '';
+    charCount.textContent = '0 caracteres';
+
+    dynamicTextContainer.innerHTML = '';
+    listsContainer.innerHTML = '';
+});
